@@ -1,31 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import todoServices from "../services/todoServices";
 
 export default function ToDoList() {
-  const [todoList, setTodoList] = useState([
-    {
-      label: "Tirar la basura",
-      isDone: false,
-    },
-    {
-      label: "Estudiar React",
-      isDone: false,
-    },
-    {
-      label: "Estudiar React de nuevo",
-      isDone: false,
-    }
-  ]);
+  const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
-  function handleSubmit(e) {
+  useEffect(() => {
+    async function getAllTodos () {
+      const data = await todoServices.getToDo();
+
+      console.log(data)
+
+      setTodoList(data.todos)
+    }
+
+    getAllTodos()
+
+  }, [])
+
+
+  async function handleSubmit(e) {
     e.preventDefault(); // Evitar que por defecto se recargue la página.
 
     const newTask = {
       label: inputValue,
-      isDone: false,
+      is_done: false,
     };
 
-    setTodoList([...todoList, newTask]); // Loq eu había en todoList + la nueva tarea
+    const data = await todoServices.postToDo(newTask);
+
+    setTodoList([...todoList, data]); // Lo que había en todoList + la nueva tarea
     setInputValue(""); // Limpiar el input después de agregar la tarea
   }
 
