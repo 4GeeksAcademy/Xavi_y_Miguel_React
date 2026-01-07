@@ -10,11 +10,10 @@ import '../styles/index.css'
 
 // components
 import Home from './components/Home';
-import ToDoList from './components/ToDoList';
 
 // Generar mi aplicación de React
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ToDoList />
+    <Home />
   </React.StrictMode>,
 )
